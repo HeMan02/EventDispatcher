@@ -4,9 +4,8 @@ using System.Linq;
 
 public class EventDispatcher
 {
-    //DIC ACTION
     private Dictionary<IEvents.TypesEvents, Action<object>> _actions = new Dictionary<IEvents.TypesEvents, Action<object>>();
-
+    #region API
     public void SetAction<T>(T value, IEvents.TypesEvents events)
     {
         object objectValue = value as object;
@@ -32,5 +31,6 @@ public class EventDispatcher
         else
             _actions.Add(events, actionCast);
     }
+    #endregion
 }
 
