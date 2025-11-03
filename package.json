@@ -1,0 +1,18 @@
+{
+    "name": "com.unity.EventDispatcher",
+    "displayName": "EventDispatcher",
+    "version": "1.0.0",
+    "unity": "2024.1",
+    "description": "EventDispatcher",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/HeMan02/EventDispatcher"
+    },
+    "author": "ErJango<musso.luca89@gmail.com>(https://github.com/HeMan02)",
+    "keywords": [
+        "unity",
+        "EventDispatcher"
+    ],
+    "category": "Unity",
+    "dependencies": {}
+}
