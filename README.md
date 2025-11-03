@@ -1,4 +1,7 @@
-## Probability Picker
+## Event Dispatcher
 <div align="center">
-<img src="https://user-images.githubusercontent.com/74038190/212284158-e840e285-664b-44d7-b79b-e264b5e54825.gif" width="500">
+<img src="https://user-images.githubusercontent.com/74038190/236119160-976a0405-caa7-470c-9356-16d43402ea0a.gif" width="500">
 </div>
+<div>The event dispatcher plays a crucial role in managing communication between game sistem.
+It allows different components such as the player controller, UI , Audio and physics system without direct dependencies.
+This promotes a modular architecture, efficently and maintainably.</div>
