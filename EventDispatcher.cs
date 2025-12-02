@@ -1,35 +1,52 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public class EventDispatcher
 {
-    private Dictionary<IEvents.TypesEvents, Action<object>> _actions = new Dictionary<IEvents.TypesEvents, Action<object>>();
+    private Dictionary<object, List<Delegate>> _actions = new Dictionary<object, List<Delegate>>();
     #region API
-    public void SetAction<T>(T value, IEvents.TypesEvents events)
+    public void SetAction<T>(object key, T ev) where T : IEvents
     {
-        object objectValue = value as object;
+        if (_actions.TryGetValue(key, out var del))
+        {
+            for (int i = 0; i < del.Count; i++)
+            {
+                Action<T> action = del[i] as Action<T>;
 
-        if (_actions.Keys.Contains(events))
-            _actions[events].Invoke(objectValue);
+                if (action == null)
+                    continue;
+
+                if (action.GetType() == typeof(Action<T>))
+                    action?.Invoke(ev);
+            }
+        }
     }
 
-    public void UnregisterAction<T>(Action<T> a, IEvents.TypesEvents events)
+    public void RegisterAction<T>(object key, Action<T> a) where T : IEvents
     {
-        Action<object> actionCast = new Action<object>((o) => a((T)o));
-
-        if (_actions.ContainsKey(events))
-            _actions[events] -= actionCast;
-    }
-
-    public void RegisterAction<T>(Action<T> a, IEvents.TypesEvents events)
-    {
-        Action<object> actionCast = new Action<object>((o) => a((T)o));  
-
-        if (_actions.ContainsKey(events))
-            _actions[events] += actionCast;
+        if (_actions.TryGetValue(key, out var value))
+        {
+            if (!value.Contains(a))
+                _actions[key].Add(a);
+        }
         else
-            _actions.Add(events, actionCast);
+        {
+            _actions[key] = new List<Delegate> { a };
+        }
+    }
+
+    public void UnregisterAction<T>(object key, Action<T> a) where T : IEvents
+    {
+        if (_actions.TryGetValue(key, out var value))
+        {
+            if (value.Contains(a))
+                value.Remove(a);
+
+            if (value is null)
+                _actions.Remove(key);
+            else
+                _actions[key] = value;
+        }
     }
     #endregion
 }
